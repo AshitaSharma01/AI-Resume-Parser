@@ -8,8 +8,15 @@ import spacy
 from collections import Counter
 import time
 
-# Load SpaCy model
-nlp = spacy.load("en_core_web_sm")
+# Load SpaCy model safely
+def load_spacy_model():
+    try:
+        return spacy.load("en_core_web_sm")
+    except OSError:
+        import en_core_web_sm
+        return en_core_web_sm.load()
+
+nlp = load_spacy_model()
 
 # Skill list
 skills_list = ["Python", "Java", "C++", "Machine Learning", "Data Science", "AI", "TensorFlow", "Keras", "SQL", "Pandas"]
@@ -139,5 +146,7 @@ if uploaded_files:
 
 else:
     st.info("Upload resumes to start parsing...")
+
+st.markdown("<div class='footer'>Developed with ❤️ by Your Name</div>", unsafe_allow_html=True)
 
 
